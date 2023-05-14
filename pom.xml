@@ -19,10 +19,10 @@
     <!-- Sonar properties -->
     <sonar.organization>sheeptheweeb</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <jacoco.version>0.8.10</jacoco.version>
-    <sonar.coverage.jacoco.xmlReportPaths>
+    <jacoco.version>0.8.8</jacoco.version>
+    <!--<sonar.coverage.jacoco.xmlReportPaths>
       target/site/jacoco/jacoco.xml
-    </sonar.coverage.jacoco.xmlReportPaths>
+    </sonar.coverage.jacoco.xmlReportPaths>-->
   </properties>
 
   <dependencies>
@@ -55,11 +55,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
       <version>${jacoco.version}</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
   <build>
@@ -105,11 +105,6 @@
             <goals>
               <goal>report</goal>
             </goals>
-            <configuration>
-              <formats>
-                <format>XML</format>
-              </formats>
-            </configuration>
           </execution>
         </executions>
       </plugin>
