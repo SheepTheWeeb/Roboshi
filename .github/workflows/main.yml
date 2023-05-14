@@ -19,4 +19,6 @@ jobs:
       - name: Build and Deploy container
         run: |
           docker build -t roboshi .
-          docker run roboshi {{ env.APP_ENV }}
+          docker run --name roboshi -d \
+            -e DISCORD_BOT_TOKEN={{ secrets.DISCORD_BOT_TOKEN }} \
+            -e PROFILE={{ env.APP_ENV }} roboshi
