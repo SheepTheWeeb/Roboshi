@@ -30,6 +30,6 @@ jobs:
           docker rm roboshi || true
       - name: Start new container
         run: |
-          docker run --name roboshi -d \
+          docker run --restart=always --name roboshi -d \
             -e DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }} \
             -e PROFILE=${{ env.APP_ENV }} roboshi
