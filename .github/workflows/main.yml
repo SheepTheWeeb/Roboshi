@@ -21,6 +21,7 @@ jobs:
           docker build -t roboshi .
   deploy:
     name: Deploy container
+    needs: build
     runs-on: self-hosted
     steps:
       - name: Remove old container
