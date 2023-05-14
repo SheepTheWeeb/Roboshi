@@ -12,13 +12,23 @@ env:
 
 jobs:
   build:
-    name: Build and Deploy
+    name: Build image
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - name: Build and Deploy container
         run: |
           docker build -t roboshi .
+  deploy:
+    name: Deploy container
+    runs-on: self-hosted
+    steps:
+      - name: Remove old container
+        run: |
+          docker stop roboshi || true
+          docker rm roboshi || true
+      - name: Start new container
+        run: |
           docker run --name roboshi -d \
             -e DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }} \
             -e PROFILE=${{ env.APP_ENV }} roboshi
