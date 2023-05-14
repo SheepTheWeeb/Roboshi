@@ -9,6 +9,6 @@ public class RoboshiConstant {
     // Properties related
     public static final String DEFAULT_ENV_NAME = "local";
     public static final String PROPERTY_FILE_NAME = "application-%s.properties";
-    public static final String DISCORD_BOT_TOKEN_PROPERTY_KEY = "discord.bot.token";
+    public static final String DISCORD_BOT_TOKEN_PROPERTY_KEY = "discordBotToken";
     public static final String COMPLIMENT_API_ENDPOINT_PROPERTY_KEY = "compliment.api.endpoint";
 }

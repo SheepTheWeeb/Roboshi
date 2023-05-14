@@ -16,7 +16,7 @@ public class RoboshiConfig {
     }
 
     public String getDiscordBotToken() {
-        return properties.getProperty(RoboshiConstant.DISCORD_BOT_TOKEN_PROPERTY_KEY);
+        return System.getProperty(RoboshiConstant.DISCORD_BOT_TOKEN_PROPERTY_KEY);
     }
 
     public String getComplimentAPIEndpoint() {
