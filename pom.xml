@@ -16,8 +16,10 @@
     <maven.compiler.target>17</maven.compiler.target>
     <lombok.version>1.18.26</lombok.version>
     <slf4j.version>2.0.7</slf4j.version>
+    <!-- Sonar properties -->
     <sonar.organization>sheeptheweeb</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <jacoco.version>0.8.10</jacoco.version>
   </properties>
 
   <dependencies>
@@ -44,12 +46,28 @@
       <version>${slf4j.version}</version>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
+    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.9.3</version>
+      <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.3.1</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -76,6 +94,25 @@
                 </transformer>
               </transformers>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
