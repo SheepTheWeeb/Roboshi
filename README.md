@@ -46,7 +46,7 @@ mvn install
 - Open the project with Intellij
 - Open App.java within /src/main/java/org/sheep
 - Press the little green play button (it should crash the first time but create the config)
-- Add the local variables as described here: https://github.com/SheepTheWeeb/Roboshi/wiki/Local-variables
+- Add the local variables as described [here](https://github.com/SheepTheWeeb/Roboshi/wiki/Local-variables)
 
 The variables you need are:
 
@@ -58,7 +58,7 @@ The variables you need are:
 
 ## Code quality
 
-This project uses Sonarcloud: https://sonarcloud.io/project/overview?id=SheepTheWeeb_Roboshi
+This project uses [Sonarcloud](https://sonarcloud.io/project/overview?id=SheepTheWeeb_Roboshi)
 
 ## Technologies
 
