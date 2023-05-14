@@ -56,6 +56,10 @@ The variables you need are:
 
 - Press the green run button again
 
+## Code quality
+
+This project uses Sonarcloud: https://sonarcloud.io/project/overview?id=SheepTheWeeb_Roboshi
+
 ## Technologies
 
 The technologies used for the bot are:
