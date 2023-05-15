@@ -21,8 +21,8 @@ public class PingCommand extends AbstractCommand {
 
         long time = System.currentTimeMillis();
         event.reply("Pong!")
-                .setEphemeral(true) // reply or acknowledge
-                .flatMap(v -> event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time)
-                ).queue();
+                .setEphemeral(true)
+                .flatMap(v -> event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time))
+                .queue();
     }
 }

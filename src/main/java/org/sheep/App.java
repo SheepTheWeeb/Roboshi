@@ -10,49 +10,34 @@ import org.sheep.model.command.PingCommand;
 import org.sheep.service.MessageListener;
 import org.sheep.service.ReadyListener;
 import org.sheep.util.RoboshiConstant;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
 
 @Slf4j
-public class App 
-{
-    public static void main( String[] args ) throws InterruptedException
-    {
-        RoboshiConfig config = getConfig(args);
-        if (config == null) {
-            return;
-        }
+@SpringBootApplication
+public class App implements CommandLineRunner {
+    @Autowired
+    private RoboshiConfig config;
+
+    public static void main(String[] args) {
+        log.info("Starting Roboshi");
+        SpringApplication.run(App.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws InterruptedException {
         JDA jda = JDABuilder.createDefault(config.getDiscordBotToken())
                 .addEventListeners(
                         new ReadyListener(),
-                        new MessageListener()
-                ).setActivity(Activity.playing(RoboshiConstant.BOT_ACTIVITY))
+                        new MessageListener())
+                .setActivity(Activity.playing(RoboshiConstant.BOT_ACTIVITY))
                 .build();
-
-        jda.updateCommands().addCommands(
-                Commands.slash(PingCommand.NAME, PingCommand.DESCRIPTION)
-        ).queue();
-
+        jda.updateCommands()
+                .addCommands(Commands.slash(PingCommand.NAME, PingCommand.DESCRIPTION))
+                .queue();
         jda.awaitReady();
-    }
-
-    /**
-     * Fetches the properties from the property files
-     *
-     * @param args Commandline arguments
-     * @return Application configuration
-     */
-    private static RoboshiConfig getConfig(String[] args) {
-        String env = RoboshiConstant.DEFAULT_ENV_NAME;
-        if (args.length > 0) {
-            env = args[0];
-        }
-
-        try {
-            return new RoboshiConfig(env);
-        } catch (IOException ex) {
-            log.error("Could not load in property file for env: {}", env);
-            return null;
-        }
     }
 }
