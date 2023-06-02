@@ -5,8 +5,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 @Slf4j
 public class PingCommand extends AbstractCommand {
-    public static final String NAME = "ping";
-    public static final String DESCRIPTION = "Calculate response-time of the bot";
+    private static final String NAME = "ping";
+    private static final String DESCRIPTION = "Calculate response-time of the bot";
 
     public PingCommand() {
         super(NAME, DESCRIPTION, true);
