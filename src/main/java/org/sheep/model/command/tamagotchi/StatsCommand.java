@@ -2,13 +2,17 @@ package org.sheep.model.command.tamagotchi;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.sheep.model.command.AbstractCommand;
+import org.sheep.model.db.Tamagotchi;
+import org.sheep.repository.TamagotchiRepository;
 import org.sheep.util.RoboshiConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -20,8 +24,12 @@ public class StatsCommand extends AbstractCommand {
     private static final String NAME = "stats";
     private static final String DESCRIPTION = "Get tamagotchi stats";
 
-    public StatsCommand() {
+    private final TamagotchiRepository tamagotchiRepository;
+
+    @Autowired
+    public StatsCommand(TamagotchiRepository tamagotchiRepository) {
         super(NAME, DESCRIPTION, true);
+        this.tamagotchiRepository = tamagotchiRepository;
     }
 
     @Override
@@ -30,27 +38,38 @@ public class StatsCommand extends AbstractCommand {
             log.warn("StatsCommand is disabled but still used");
             return;
         }
+        Tamagotchi tamagotchi = tamagotchiRepository.findFirstByOrderByCreatedDesc();
+        if (tamagotchi == null) {
+            event.reply("You need to create a Tamagotchi first. Please use '/create'.").queue();
+            return;
+        }
 
-        // TODO: Fetch HP and Hunger from a database
+        replyMessageEmbed(event, tamagotchi);
+    }
+
+    private void replyMessageEmbed(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
         try {
             InputStream file = new URL(RoboshiConstant.MELON_DOG_IMG).openStream();
-            // TODO: Make createEmbed method (probably needs an utility class)
-            event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("Roboshi stats")
-                        .setDescription(RoboshiConstant.BOT_ACTIVITY)
-                        .setImage("attachment://melondog.webp")
-                        .setFooter("Roboshi", RoboshiConstant.MELON_DOG_IMG)
-                        .setColor(new Color(0xe5642d))
-                        .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
-                        .setTimestamp(OffsetDateTime.now())
-                        .addField("HP", "text", false)
-                        .addField("Hunger", "text", false)
-                        .build())
+            event.replyEmbeds(createMessage(event, tamagotchi))
                     .addFiles(FileUpload.fromData(file, "melondog.webp"))
                     .queue();
         } catch (IOException ex) {
             log.error("IOException has occurred: {}", ex, ex);
-            // TODO: reply with sad message
+            event.reply("").queue();
         }
+    }
+
+    private MessageEmbed createMessage(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
+        return new EmbedBuilder()
+                .setTitle("Roboshi stats")
+                .setDescription(RoboshiConstant.BOT_ACTIVITY)
+                .setImage("attachment://melondog.webp")
+                .setFooter("Roboshi", RoboshiConstant.MELON_DOG_IMG)
+                .setColor(new Color(0xe5642d))
+                .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
+                .setTimestamp(OffsetDateTime.now())
+                .addField("HP", String.valueOf(tamagotchi.getHp()), false)
+                .addField("Hunger", String.valueOf(tamagotchi.getHunger()), false)
+                .build();
     }
 }

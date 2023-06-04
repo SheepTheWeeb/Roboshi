@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.sheep.model.command.AbstractCommand;
 import org.sheep.model.db.Tamagotchi;
 import org.sheep.repository.TamagotchiRepository;
+import org.sheep.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class CreateCommand extends AbstractCommand {
         Tamagotchi newTamagotchi = Tamagotchi.builder()
                 .hp(100)
                 .hunger(100)
+                .created(TimeUtil.getCurrentTime())
                 .build();
         tamagotchiRepository.save(newTamagotchi);
         event.reply("New Tamagotchi created!").queue();
