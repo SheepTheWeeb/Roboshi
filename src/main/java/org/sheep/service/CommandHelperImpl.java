@@ -3,6 +3,7 @@ package org.sheep.service;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.sheep.model.command.AbstractCommand;
+import org.sheep.model.command.ComplimentCommand;
 import org.sheep.model.command.PingCommand;
 import org.sheep.model.command.tamagotchi.CreateCommand;
 import org.sheep.model.command.tamagotchi.StatsCommand;
@@ -18,12 +19,14 @@ public class CommandHelperImpl implements CommandHelper {
 
     // Commands
     private PingCommand pingCommand;
+    private ComplimentCommand complimentCommand;
     private StatsCommand statsCommand;
     private CreateCommand createCommand;
 
     @PostConstruct
     private void setupCommands() {
         commands.add(pingCommand);
+        commands.add(complimentCommand);
         commands.add(statsCommand);
         commands.add(createCommand);
     }

@@ -22,6 +22,7 @@ public class CreateCommand extends AbstractCommand {
         super(NAME, DESCRIPTION, true);
         this.tamagotchiRepository = tamagotchiRepository;
     }
+    
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         if (!this.isEnabled()) {
