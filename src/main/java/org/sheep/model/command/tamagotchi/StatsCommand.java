@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.sheep.model.command.AbstractCommand;
 import org.sheep.util.RoboshiConstant;
+import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.net.URL;
 import java.time.OffsetDateTime;
 
 @Slf4j
+@Service
 public class StatsCommand extends AbstractCommand {
     private static final String NAME = "stats";
     private static final String DESCRIPTION = "Get tamagotchi stats";
@@ -21,16 +23,18 @@ public class StatsCommand extends AbstractCommand {
     public StatsCommand() {
         super(NAME, DESCRIPTION, true);
     }
+
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         if (!this.isEnabled()) {
-            log.warn("PingCommand is disabled but still used");
+            log.warn("StatsCommand is disabled but still used");
             return;
         }
 
         // TODO: Fetch HP and Hunger from a database
         try {
             InputStream file = new URL(RoboshiConstant.MELON_DOG_IMG).openStream();
+            // TODO: Make createEmbed method (probably needs an utility class)
             event.replyEmbeds(new EmbedBuilder()
                         .setTitle("Roboshi stats")
                         .setDescription(RoboshiConstant.BOT_ACTIVITY)
@@ -46,6 +50,7 @@ public class StatsCommand extends AbstractCommand {
                     .queue();
         } catch (IOException ex) {
             log.error("IOException has occurred: {}", ex, ex);
+            // TODO: reply with sad message
         }
     }
 }
