@@ -1,4 +1,4 @@
-package org.sheep.model;
+package org.sheep.model.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

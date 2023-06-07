@@ -2,7 +2,7 @@ package org.sheep.gateway;
 
 import lombok.extern.slf4j.Slf4j;
 import org.sheep.config.RoboshiConfig;
-import org.sheep.model.ComplimentResponse;
+import org.sheep.model.response.ComplimentResponse;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;

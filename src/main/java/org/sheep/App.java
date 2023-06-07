@@ -13,11 +13,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @Slf4j
 @AllArgsConstructor
 @EnableMongoRepositories(basePackages = "org.sheep.repository")
+@EnableScheduling
 @SpringBootApplication
 public class App implements CommandLineRunner {
     private RoboshiConfig config;
