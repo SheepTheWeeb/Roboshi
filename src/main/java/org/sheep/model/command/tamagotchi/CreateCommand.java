@@ -30,7 +30,13 @@ public class CreateCommand extends AbstractCommand {
             log.warn("CreateCommand is disabled but still used");
             return;
         }
-        // TODO: Refine this command
+
+        Tamagotchi tamagotchi = tamagotchiRepository.findFirstByOrderByCreatedDesc();
+        if (tamagotchi != null && tamagotchi.getHp() > 0) {
+            event.reply("Your Tamagotchi is still alive! Please use '/stats' to view it's stats.").queue();
+            return;
+        }
+
         Tamagotchi newTamagotchi = Tamagotchi.builder()
                 .hp(RoboshiConstant.MAX_HP)
                 .hunger(RoboshiConstant.MAX_HUNGER)

@@ -60,16 +60,22 @@ public class StatsCommand extends AbstractCommand {
     }
 
     private MessageEmbed createMessage(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
-        return new EmbedBuilder()
+        EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle("Roboshi stats")
-                .setDescription(RoboshiConstant.BOT_ACTIVITY)
                 .setImage("attachment://melondog.webp")
                 .setFooter("Roboshi", RoboshiConstant.MELON_DOG_IMG)
                 .setColor(new Color(0xe5642d))
                 .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
                 .setTimestamp(OffsetDateTime.now())
                 .addField("HP", String.format("%d/%d", tamagotchi.getHp(), RoboshiConstant.MAX_HP), false)
-                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), false)
-                .build();
+                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), false);
+
+        if (tamagotchi.getHp() > 0) {
+            embedBuilder.setDescription(RoboshiConstant.BOT_ACTIVITY);
+        } else {
+            embedBuilder.setDescription("Not looking for watermelons anymore... It ~~died~~ went on vacation \uD83D\uDC80. You can use '/create' to adopt a new one.");
+        }
+
+        return embedBuilder.build();
     }
 }
