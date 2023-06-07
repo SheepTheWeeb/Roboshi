@@ -68,8 +68,8 @@ public class StatsCommand extends AbstractCommand {
                 .setColor(new Color(0xe5642d))
                 .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
                 .setTimestamp(OffsetDateTime.now())
-                .addField("HP", String.valueOf(tamagotchi.getHp()), false)
-                .addField("Hunger", String.valueOf(tamagotchi.getHunger()), false)
+                .addField("HP", String.format("%d/%d", tamagotchi.getHp(), RoboshiConstant.MAX_HP), false)
+                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), false)
                 .build();
     }
 }
