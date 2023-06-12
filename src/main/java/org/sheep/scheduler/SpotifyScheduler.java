@@ -59,7 +59,7 @@ public class SpotifyScheduler {
 
         if (playlist != null && !playlist.getItems().isEmpty()) {
             String songOfTheDay = String.format("https://open.spotify.com/track/%s", playlist.getItems().get(0).getTrack().getId());
-            sendDiscordMessage("Liedje van de dag: \n" + songOfTheDay);
+            sendDiscordMessage("Roboshi spotify recommendation: \n" + songOfTheDay);
         }
     }
 
