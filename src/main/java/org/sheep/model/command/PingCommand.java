@@ -2,11 +2,13 @@ package org.sheep.model.command;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
 public class PingCommand extends AbstractCommand {
-    public static final String NAME = "ping";
-    public static final String DESCRIPTION = "Calculate response-time of the bot";
+    private static final String NAME = "ping";
+    private static final String DESCRIPTION = "Calculate response-time of the bot";
 
     public PingCommand() {
         super(NAME, DESCRIPTION, true);
