@@ -9,5 +9,7 @@ FROM eclipse-temurin:17.0.7_7-jre-focal
 ENV PROFILE="dev"
 ENV DISCORD_BOT_TOKEN=""
 ENV DB_CONNECTION_STRING=""
+ENV SPOTIFY_CLIENT_ID=""
+ENV SPOTIFY_CLIENT_SECRET=""
 COPY --from=build /home/app/target/Roboshi-1.0-SNAPSHOT.jar /usr/local/lib/roboshi.jar
-ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/roboshi.jar --spring.profiles.active=$PROFILE --discordBotToken=$DISCORD_BOT_TOKEN --spring.data.mongodb.uri=$DB_CONNECTION_STRING"]
+ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/roboshi.jar --spring.profiles.active=$PROFILE --discordBotToken=$DISCORD_BOT_TOKEN --spring.data.mongodb.uri=$DB_CONNECTION_STRING --spotifyClientID=$SPOTIFY_CLIENT_ID --spotifyClientSecret=$SPOTIFY_CLIENT_SECRET"]
