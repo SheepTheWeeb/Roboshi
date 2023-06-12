@@ -15,10 +15,22 @@ public class SpotifyConfig {
     private String spotifyClientID;
     @Value("${spotifyClientSecret}")
     private String spotifyClientSecret;
-    @Value("${spotify.baseUrl}")
-    private String baseUrl;
+    @Value("${spotify.auth.baseUrl}")
+    private String authBaseUrl;
     @Value("${spotify.auth.endpoint}")
     private String authEndpoint;
     @Value("${spotify.token.expireTime}")
     private String tokenExpireTime;
+    @Value("${spotify.api.baseUrl}")
+    private String apiBaseUrl;
+    @Value("${spotify.tracks.endpoint}")
+    private String tracksEndpoint;
+    @Value("${spotify.tracks.limit}")
+    private String tracksLimit;
+    @Value("${spotify.tracks.maxOffset}")
+    private String tracksMaxOffset;
+    @Value("${discord.songOfTheDay.guild}")
+    private String guild;
+    @Value("${discord.songOfTheDay.channel}")
+    private String channel;
 }
