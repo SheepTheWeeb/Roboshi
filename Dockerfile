@@ -12,9 +12,4 @@ ENV DB_CONNECTION_STRING=""
 ENV SPOTIFY_CLIENT_ID=""
 ENV SPOTIFY_CLIENT_SECRET=""
 COPY --from=build /home/app/target/Roboshi-1.0-SNAPSHOT.jar /usr/local/lib/roboshi.jar
-ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/roboshi.jar \
-    --spring.profiles.active=$PROFILE \
-    --discordBotToken=$DISCORD_BOT_TOKEN \
-    --spring.data.mongodb.uri=$DB_CONNECTION_STRING \
-    --spotifyClientID=$SPOTIFY_CLIENT_ID \
-    --spotifyClientSecret=$SPOTIFY_CLIENT_SECRET"]
+ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/roboshi.jar --spring.profiles.active=$PROFILE --discordBotToken=$DISCORD_BOT_TOKEN --spring.data.mongodb.uri=$DB_CONNECTION_STRING --spotifyClientID=$SPOTIFY_CLIENT_ID --spotifyClientSecret=$SPOTIFY_CLIENT_SECRET"]
