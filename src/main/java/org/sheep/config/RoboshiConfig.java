@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties
 public class RoboshiConfig {
-    @Value("${discordBotToken}")
+    @Value("${discord.bot.token}")
     private String discordBotToken;
     @Value("${compliment.api.endpoint}")
     private String complimentAPIEndpoint;
