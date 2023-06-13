@@ -31,9 +31,9 @@ jobs:
       - name: Start new container
         run: |
           docker run --restart=always --name roboshi -d \
-            -e PROFILE=${{ env.APP_ENV }} roboshi \
+            -e PROFILE=${{ env.APP_ENV }} \
             -e DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }} \
             -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
             -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
             -e SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }} \
-            -e SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}
+            -e SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }} roboshi

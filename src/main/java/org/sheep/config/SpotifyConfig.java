@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties
 public class SpotifyConfig {
-    @Value("${spotifyClientID}")
+    @Value("${spotify.client.id}")
     private String spotifyClientID;
-    @Value("${spotifyClientSecret}")
+    @Value("${spotify.client.secret}")
     private String spotifyClientSecret;
     @Value("${spotify.auth.baseUrl}")
     private String authBaseUrl;
