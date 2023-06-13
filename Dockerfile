@@ -17,5 +17,4 @@ ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/roboshi.jar \
     --discordBotToken=$DISCORD_BOT_TOKEN \
     --spring.data.mongodb.uri=$DB_CONNECTION_STRING \
     --spotifyClientID=$SPOTIFY_CLIENT_ID \
-    --spotifyClientSecret=$SPOTIFY_CLIENT_SECRET"
-]
+    --spotifyClientSecret=$SPOTIFY_CLIENT_SECRET"]
