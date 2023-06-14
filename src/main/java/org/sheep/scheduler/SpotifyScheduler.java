@@ -41,7 +41,7 @@ public class SpotifyScheduler {
     @Autowired
     private Random random;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *", zone = "CEST")
     public void songOfTheDayScheduler() {
         log.info("Song of the day scheduler started");
         String token = getCachedAuthToken();
