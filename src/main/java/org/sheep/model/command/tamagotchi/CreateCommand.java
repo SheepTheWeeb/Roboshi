@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.sheep.model.TamagotchiVariant;
+import org.sheep.model.db.TamagotchiVariant;
 import org.sheep.model.command.AbstractCommand;
 import org.sheep.model.db.Tamagotchi;
 import org.sheep.repository.TamagotchiRepository;
+import org.sheep.repository.TamagotchiVariantRepository;
 import org.sheep.util.FileUtil;
 import org.sheep.util.RoboshiConstant;
 import org.sheep.util.TimeUtil;
@@ -30,18 +31,16 @@ public class CreateCommand extends AbstractCommand {
     // options
     private static final String NAME_OPTION = "name";
 
-    private static final String TAMAGOTCHI_VARIANTS_FILE_NAME = "tamagotchi_variants.json";
-
     private final TamagotchiRepository tamagotchiRepository;
-    private final ObjectMapper mapper;
+    private final TamagotchiVariantRepository variantRepository;
     private final Random random;
 
     @Autowired
-    public CreateCommand(TamagotchiRepository tamagotchiRepository, ObjectMapper mapper, Random random) {
+    public CreateCommand(TamagotchiRepository tamagotchiRepository, TamagotchiVariantRepository variantRepository, Random random) {
         super(NAME, DESCRIPTION, new ArrayList<>());
         super.getOptions().add(new OptionData(OptionType.STRING, NAME_OPTION, "Name of your tamagotchi", true));
         this.tamagotchiRepository = tamagotchiRepository;
-        this.mapper = mapper;
+        this.variantRepository = variantRepository;
         this.random = random;
     }
 
@@ -59,16 +58,11 @@ public class CreateCommand extends AbstractCommand {
     }
 
     private TamagotchiVariant getRandomEgg() {
-        try {
-            List<TamagotchiVariant> tamagotchiVariants = FileUtil.getTamagotchiVariants(TAMAGOTCHI_VARIANTS_FILE_NAME, "tamagotchi/", mapper)
-                    .stream()
-                    .filter(variant -> variant.getType().equals("egg"))
-                    .toList();
-            return tamagotchiVariants.get(random.nextInt(tamagotchiVariants.size()));
-        } catch (IOException ex) {
-            log.error("Could not read from: {}", TAMAGOTCHI_VARIANTS_FILE_NAME, ex);
-        }
-        return null;
+        List<TamagotchiVariant> variants = variantRepository.findAll()
+                .stream()
+                .filter(variant -> variant.getType().equals("egg"))
+                .toList();
+        return variants.get(random.nextInt(variants.size()));
     }
 
     private void saveTamagotchi(String name, TamagotchiVariant variant) {

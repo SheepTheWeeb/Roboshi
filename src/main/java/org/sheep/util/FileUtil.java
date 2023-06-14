@@ -2,7 +2,7 @@ package org.sheep.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sheep.model.TamagotchiVariant;
+import org.sheep.model.db.TamagotchiVariant;
 
 import java.io.IOException;
 import java.io.InputStream;
