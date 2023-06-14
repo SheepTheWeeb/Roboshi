@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Service
 public class ComplimentCommand extends AbstractCommand {
@@ -19,17 +21,13 @@ public class ComplimentCommand extends AbstractCommand {
 
     @Autowired
     public ComplimentCommand(RoboshiConfig config, RestTemplate restTemplate) {
-        super(NAME, DESCRIPTION, true);
+        super(NAME, DESCRIPTION, new ArrayList<>());
         this.config = config;
         this.restTemplate = restTemplate;
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        if (!this.isEnabled()) {
-            log.warn("PingCommand is disabled but still used");
-            return;
-        }
         String compliment = ComplimentGateway.getCompliment(restTemplate, config);
         event.reply(compliment).queue();
     }

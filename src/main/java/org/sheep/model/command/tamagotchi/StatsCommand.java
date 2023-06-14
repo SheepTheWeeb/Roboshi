@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -28,16 +29,12 @@ public class StatsCommand extends AbstractCommand {
 
     @Autowired
     public StatsCommand(TamagotchiRepository tamagotchiRepository) {
-        super(NAME, DESCRIPTION, true);
+        super(NAME, DESCRIPTION, new ArrayList<>());
         this.tamagotchiRepository = tamagotchiRepository;
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        if (!this.isEnabled()) {
-            log.warn("StatsCommand is disabled but still used");
-            return;
-        }
         Tamagotchi tamagotchi = tamagotchiRepository.findFirstByOrderByCreatedDesc();
         if (tamagotchi == null) {
             event.reply("You need to create a Tamagotchi first. Please use '/create'.").queue();
