@@ -14,7 +14,7 @@ public class Tamagotchi {
     @Id
     private String id;
     private String name;
-    private String imageUrl;
+    private String imageName;
     private int hp;
     private int hunger;
     private int happiness;

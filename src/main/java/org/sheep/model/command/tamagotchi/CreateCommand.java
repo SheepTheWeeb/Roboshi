@@ -52,7 +52,7 @@ public class CreateCommand extends AbstractCommand {
 
         Tamagotchi newTamagotchi = Tamagotchi.builder()
                 .name(name)
-                .imageUrl("")
+                .imageName("egg1.png")
                 .hp(RoboshiConstant.MAX_HP)
                 .hunger(RoboshiConstant.MAX_HUNGER)
                 .happiness(0)

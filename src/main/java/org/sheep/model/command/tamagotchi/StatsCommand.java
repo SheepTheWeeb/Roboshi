@@ -10,14 +10,15 @@ import org.sheep.model.Happiness;
 import org.sheep.model.command.AbstractCommand;
 import org.sheep.model.db.Tamagotchi;
 import org.sheep.repository.TamagotchiRepository;
+import org.sheep.util.ImageUtil;
 import org.sheep.util.RoboshiConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
@@ -47,29 +48,41 @@ public class StatsCommand extends AbstractCommand {
     }
 
     private void replyMessageEmbed(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
-        try {
-            InputStream file = new URL(RoboshiConstant.MELON_DOG_IMG).openStream();
+        FileUpload image = getImage(tamagotchi.getImageName());
+        if (image != null) {
             event.replyEmbeds(createMessage(event, tamagotchi))
-                    .addFiles(FileUpload.fromData(file, "melondog.webp"))
+                    .addFiles(image)
                     .queue();
-        } catch (IOException ex) {
-            log.error("IOException has occurred: {}", ex, ex);
-            event.reply("").queue();
+        } else {
+            event.reply("Brokko bot").queue();
         }
+    }
+
+    private FileUpload getImage(String name) {
+        try {
+            Image image = ImageUtil.getImageFromResources(name, RoboshiConstant.TAMAGOTCHI_IMG_RESOURCE_PATH);
+            BufferedImage resizedImage = ImageUtil.resize(image , 1000, 1000);
+            InputStream file = ImageUtil.convertBufferedImageToInputStream(resizedImage);
+            return FileUpload.fromData(file, "tamagotchi.png");
+        } catch(IOException ex) {
+            log.error("IOException has occurred: {}", ex.getMessage(), ex);
+        }
+        return null;
     }
 
     private MessageEmbed createMessage(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle(tamagotchi.getName() + "'s stats")
-                .setImage("attachment://melondog.webp")
+                .setImage("attachment://tamagotchi.png")
                 .setFooter("Roboshi", RoboshiConstant.MELON_DOG_IMG)
                 .setColor(new Color(0xe5642d))
                 .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
                 .setTimestamp(OffsetDateTime.now())
-                .addField("HP", String.format("%d/%d", tamagotchi.getHp(), RoboshiConstant.MAX_HP), true)
-                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), true);
-        setHappiness(embedBuilder, tamagotchi.getHappiness());
-        embedBuilder.addField("Age", String.valueOf(tamagotchi.getAge()), true)
+                .addField("HP", tamagotchi.getHp() + "/" + RoboshiConstant.MAX_HP, true)
+                .addField("Hunger", tamagotchi.getHunger() + "/" + RoboshiConstant.MAX_HUNGER, true)
+                .addField("Happiness", StringUtils.capitalize(Happiness.getHappiness(tamagotchi.getHappiness())
+                        .name().toLowerCase()), true)
+                .addField("Age", String.valueOf(tamagotchi.getAge()), true)
                 .addField("Needs to take a dump?", tamagotchi.isNeedsToilet() ? "Yes" : "No", true)
                 .addField("Sick?", tamagotchi.isSick() ? "Yes" : "No", true);
         setDescription(embedBuilder, tamagotchi.getHp());
@@ -82,10 +95,5 @@ public class StatsCommand extends AbstractCommand {
         } else {
             embedBuilder.setDescription("Not looking for watermelons anymore... It ~~died~~ went on vacation \uD83D\uDC80. You can use '/create' to adopt a new one.");
         }
-    }
-
-    private void setHappiness(EmbedBuilder embedBuilder, int happiness) {
-        String value = StringUtils.capitalize(Happiness.getHappiness(happiness).name().toLowerCase());
-        embedBuilder.addField("Happiness", value, true);
     }
 }
