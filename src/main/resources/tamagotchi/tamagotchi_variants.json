@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "type": "egg",
+    "canEvolveIn": [],
+    "imageName": "egg1.png"
+  },
+  {
+    "id": 2,
+    "type": "egg",
+    "canEvolveIn": [],
+    "imageName": "egg2.png"
+  },
+  {
+    "id": 3,
+    "type": "egg",
+    "canEvolveIn": [],
+    "imageName": "egg3.png"
+  },
+  {
+    "id": 4,
+    "type": "egg",
+    "canEvolveIn": [],
+    "imageName": "egg4.png"
+  }
+]

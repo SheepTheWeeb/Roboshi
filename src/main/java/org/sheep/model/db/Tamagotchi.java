@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Tamagotchi {
     @Id
     private String id;
+    private int variantId;
     private String name;
     private String imageName;
     private int hp;

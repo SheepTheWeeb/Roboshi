@@ -14,7 +14,7 @@ public class ImageUtil {
     }
 
     public static Image getImageFromResources(String name, String path) throws IOException {
-        InputStream is = ImageUtil.class.getClassLoader().getResourceAsStream(path + name);
+        InputStream is = FileUtil.getFileStreamFromResources(name, path);
         if (is != null) {
             return ImageIO.read(is);
         }

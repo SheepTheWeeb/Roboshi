@@ -43,7 +43,6 @@ public class StatsCommand extends AbstractCommand {
             event.reply("You need to create a Tamagotchi first. Please use '/create'.").queue();
             return;
         }
-
         replyMessageEmbed(event, tamagotchi);
     }
 
