@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
+import org.apache.commons.lang3.StringUtils;
+import org.sheep.model.Happiness;
 import org.sheep.model.command.AbstractCommand;
 import org.sheep.model.db.Tamagotchi;
 import org.sheep.repository.TamagotchiRepository;
@@ -58,21 +60,32 @@ public class StatsCommand extends AbstractCommand {
 
     private MessageEmbed createMessage(SlashCommandInteractionEvent event, Tamagotchi tamagotchi) {
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setTitle("Roboshi stats")
+                .setTitle(tamagotchi.getName() + "'s stats")
                 .setImage("attachment://melondog.webp")
                 .setFooter("Roboshi", RoboshiConstant.MELON_DOG_IMG)
                 .setColor(new Color(0xe5642d))
                 .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
                 .setTimestamp(OffsetDateTime.now())
-                .addField("HP", String.format("%d/%d", tamagotchi.getHp(), RoboshiConstant.MAX_HP), false)
-                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), false);
+                .addField("HP", String.format("%d/%d", tamagotchi.getHp(), RoboshiConstant.MAX_HP), true)
+                .addField("Hunger", String.format("%d/%d", tamagotchi.getHunger(), RoboshiConstant.MAX_HUNGER), true);
+        setHappiness(embedBuilder, tamagotchi.getHappiness());
+        embedBuilder.addField("Age", String.valueOf(tamagotchi.getAge()), true)
+                .addField("Needs to take a dump?", tamagotchi.isNeedsToilet() ? "Yes" : "No", true)
+                .addField("Sick?", tamagotchi.isSick() ? "Yes" : "No", true);
+        setDescription(embedBuilder, tamagotchi.getHp());
+        return embedBuilder.build();
+    }
 
-        if (tamagotchi.getHp() > 0) {
+    private void setDescription(EmbedBuilder embedBuilder, int hp) {
+        if (hp > 0) {
             embedBuilder.setDescription(RoboshiConstant.BOT_ACTIVITY);
         } else {
             embedBuilder.setDescription("Not looking for watermelons anymore... It ~~died~~ went on vacation \uD83D\uDC80. You can use '/create' to adopt a new one.");
         }
+    }
 
-        return embedBuilder.build();
+    private void setHappiness(EmbedBuilder embedBuilder, int happiness) {
+        String value = StringUtils.capitalize(Happiness.getHappiness(happiness).name().toLowerCase());
+        embedBuilder.addField("Happiness", value, true);
     }
 }

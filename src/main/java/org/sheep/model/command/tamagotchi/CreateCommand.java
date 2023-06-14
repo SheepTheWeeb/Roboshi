@@ -62,6 +62,6 @@ public class CreateCommand extends AbstractCommand {
                 .created(TimeUtil.getCurrentTime())
                 .build();
         tamagotchiRepository.save(newTamagotchi);
-        event.reply("New Tamagotchi created!").queue();
+        event.reply("New Tamagotchi created named '" + name + "'!").queue();
     }
 }
